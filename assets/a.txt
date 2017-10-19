@@ -1,0 +1,88 @@
+<?php for($i = 1; $i <= 8; $i++):
+    echo "Semester ".$i;
+    $thn_msk = 2015;
+    $smt = 0;
+    ?>
+
+<table border="1">
+    <tr>
+        <th>Kode MK</th>
+        <th>Nama MK</th>
+        <th>SKS</th>
+        <th>Nilai</th>
+    </tr>
+    <?php $jumip = 0; $ip = 0; $sks = 0; foreach ($nilai as $row):
+        if($row->thn == $thn_msk){
+            if($row->smt == "ganjil"){
+                $smt = 1;
+            }
+        }
+        elseif (($row->thn-1) == $thn_msk){
+            if($row->smt == "genap"){
+                $smt = 2;
+            }else{
+                $smt = 3;
+            }
+        }
+        elseif (($row->thn-2) == $thn_msk){
+            if($row->smt == "genap"){
+                $smt = 4;
+            }else{
+                $smt = 5;
+            }
+        }
+        elseif (($row->thn-3) == $thn_msk){
+            if($row->smt == "genap"){
+                $smt = 6;
+            }else{
+                $smt = 7;
+            }
+        }
+        elseif (($row->thn-4) == $thn_msk){
+            if($row->smt == "genap"){
+                $smt = 8;
+            }
+        }
+        
+        if($smt == $i):
+        ?>
+    <tr>
+        <td><?php echo $row->kdmk?></td>
+        <td><?php echo $row->namamk?></td>
+        <td><?php echo $row->sks?></td>
+        <td><?php echo $row->nilai?></td>
+    </tr>
+    <?php
+        $n = $row->nilai;
+        if ($n == "A") {
+            $ip = 4;
+        }
+        elseif ($n == "B+") {
+            $ip = 3.5;
+        }
+        elseif ($n == "B") {
+            $ip = 3;
+        }
+        elseif ($n == "C+") {
+            $ip = 2.5;
+        }
+        elseif ($n == "C") {
+            $ip = 2;
+        }
+        elseif ($n == "D") {
+            $ip = 1;
+        }
+        elseif ($n == "E") {
+            $ip = 0;
+        }
+        $sks += $row->sks;
+        $jumip += $row->sks * $ip;
+    ?>
+    <?php endif; endforeach; if (!empty($jumip) && !empty($sks)): ?>
+    <tr>
+        <th colspan="2">IPK</th>
+        <th colspan="2"><?php echo ($jumip/$sks)?></th>
+    </tr>
+    <?php endif;?>
+</table>
+<?php endfor;?>
