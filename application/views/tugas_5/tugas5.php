@@ -7,7 +7,8 @@
 		<div>
 			Menu : 
 				<a href="<?php echo site_url('tugas_5/tugas5/barang')?>">Barang</a> |
-				<a href="#">Transaksi</a>
+				<a href="<?php echo site_url('tugas_5/tugas5/transaksibeli')?>">Transaksi Pembelian</a>|
+				<a href="<?php echo site_url('tugas_5/tugas5/transaksijual')?>">Transaksi Penjualan</a>
 		</div>
 		<div>
 			<?php $this->load->view(@$page);?>

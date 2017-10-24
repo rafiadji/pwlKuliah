@@ -24,6 +24,11 @@ class Tugas5 extends CI_Controller {
 		<tr>
 			<td><?php echo $row->kd_barang?></td>
 			<td><?php echo $row->nm_barang?></td>
+			<?php if($this->input->post('status') == "ya"):?>
+			<input type="hidden" name="kd_barang[]" value="<?php echo $row->kd_barang?>" />
+			<td><input type="text" name="harga[]" value="" /></td>
+			<td><input type="text" name="jumlah[]" value="" /></td>
+			<?php endif;?>
 		</tr>
 		<?php endforeach;
 	}
@@ -40,5 +45,26 @@ class Tugas5 extends CI_Controller {
 		$data["nm_barang"] = $this->input->post('nm_barang');
 		$this->t5->addBarang($data);
 		redirect('tugas_5/tugas5/barang');
+	}
+	
+	public function transaksibeli()
+	{
+		$data['page'] = "tugas_5/transaksibeli";
+		$this->load->view($this->template, $data);
+	}
+	
+	public function simpanTransaksi()
+	{
+		$data["tgl_trans"] = $this->input->post('tgl_trans');
+		$data["status"] = $this->input->post('status');
+		$this->t5->addTrans($data);
+		$data1["no_trans"] = $this->db->insert_id();
+		$data1["kd_barang"] = $this->input->post('kd_barang');
+		$data1["harga"] = $this->input->post('harga');
+		$data1["stok"] = $this->input->post('jumlah');
+		$this->t5->addDetTrans($data1);
+		if($data["status"] == "beli"){
+			redirect('tugas_5/tugas5/transaksibeli');
+		}
 	}
 }
